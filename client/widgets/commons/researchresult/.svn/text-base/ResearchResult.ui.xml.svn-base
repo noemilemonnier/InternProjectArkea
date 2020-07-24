@@ -1,0 +1,95 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<ui:with field='messages'
+		type='com.arkea.com.arkea.commons.archetypes.client.widgets.commons.researchresult.ResearchResultMessages' />
+
+	<ui:style>
+		@def myblue rgb(82,168,236);
+
+		.ResearchResult {
+		margin : auto;
+		}
+
+
+		.ResearchResult-Titre {
+		color : myblue;
+		font-size: 18px;
+		margin : 5px
+		10px 5px 10px;
+		}
+
+		.ResearchResult-Titre2 {
+		color : myblue;
+		border : 1px
+		dashed myblue;
+		font-size: 18px;
+		margin : 5px 10px 5px 10px;
+		}
+
+		.ResearchResult-Cadre {
+		border : medium solid myblue;
+		overflow : auto;
+		font-family : sans-serif;
+		margin : 10px 10px 10px 10px;
+		text-align :
+		center;
+		}
+
+		.ResearchResult-PanelCadre {
+		border : 1px dashed myblue;
+		font-family : sans-serif;
+		margin-top : 5px;
+		margin-bot : 5px;
+		margin-left: auto;
+		margin-right : auto;
+		}
+		.ResearchResult-Btn {
+		color : white;
+		float : right;
+		margin : auto;
+		background: myblue;
+		border:
+		solid 1px;
+		cursor: pointer;
+		cursor: hand;
+		clear: right;
+		margin : 5px 10px
+		5px 10px;
+		}
+
+	</ui:style>
+
+	<g:FlowPanel ui:field='rootPanel' stylePrimaryName='{style.ResearchResult}'>
+		<g:VerticalPanel ui:field='researchResultPanel'
+			stylePrimaryName='{style.ResearchResult-Cadre}'>
+
+			<!-- Titre -->
+			<g:HorizontalPanel>
+				<g:Label ui:field='message' stylePrimaryName='{style.ResearchResult-Titre}'
+					text='{messages.texteBienvenue}' />
+			</g:HorizontalPanel>
+
+
+			<!-- resultats de recherche -->
+			<g:HorizontalPanel>
+				<g:FlowPanel ui:field='gridPanel' stylePrimaryName='{style.ResearchResult-Titre2}'>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:Button ui:field="BtnAjout" stylePrimaryName='{style.ResearchResult-Btn}'>Ajouter
+				</g:Button>
+				<g:Button ui:field="BtnSupprimer" stylePrimaryName='{style.ResearchResult-Btn}'>Supprimer
+				</g:Button>
+				<g:Button ui:field="BtnClear" stylePrimaryName='{style.ResearchResult-Btn}'>Réinitialiser
+				</g:Button>
+			</g:HorizontalPanel>
+
+
+
+		</g:VerticalPanel>
+	</g:FlowPanel>
+
+
+
+</ui:UiBinder>

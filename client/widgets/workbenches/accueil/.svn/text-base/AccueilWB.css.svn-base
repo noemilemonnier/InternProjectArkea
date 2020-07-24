@@ -1,0 +1,14 @@
+/** AccueilWB css */
+@def myblue rgb (82, 168,236);
+@def mylightblue rgb(199,232,245);
+
+.AccueilWB {
+	padding: 30px;
+}
+
+.AccueilWBTexte {
+	padding-top: 20px;
+	font-weight: bold;
+	font-size: 2em;
+	color: rgb(82, 168, 236);
+}

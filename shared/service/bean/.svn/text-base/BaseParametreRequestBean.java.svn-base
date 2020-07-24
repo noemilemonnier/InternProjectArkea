@@ -1,0 +1,115 @@
+package com.arkea.com.arkea.commons.archetypes.shared.service.bean;
+
+import java.io.Serializable;
+
+import com.arkea.com.arkea.commons.archetypes.shared.commons.Profil;
+
+
+@SuppressWarnings("serial")
+
+public class BaseParametreRequestBean implements Serializable {
+
+	/**
+	 * Descriptipon des donnees d'entree du service Reservoir
+	 */
+
+	private Profil profil; // classe importée du ResDyn class dans shared -> commons 
+	private String codeEFSParametre;
+	private String codeAppliParametre;
+	private String numeroSequenceParametre;
+
+
+	/**
+	 * @return the profil
+	 */
+	public final Profil getProfil() {
+		return profil;
+	}
+
+
+
+
+	/**
+	 * @param profil the profil to set
+	 */
+	public final void setProfil(Profil profil) {
+		this.profil = profil;
+	}
+
+
+
+
+	/**
+	 * @return the codeEFSParametre
+	 */
+	public final String getCodeEFSParametre() {
+		return codeEFSParametre;
+	}
+
+
+
+
+	/**
+	 * @param codeEFSParametre the codeEFSParametre to set
+	 */
+	public final void setCodeEFSParametre(String codeEFSParametre) {
+		this.codeEFSParametre = codeEFSParametre;
+	}
+
+
+
+
+	/**
+	 * @return the codeAppliParametre
+	 */
+	public final String getCodeAppliParametre() {
+		return codeAppliParametre;
+	}
+
+
+
+
+	/**
+	 * @param codeAppliParametre the codeAppliParametre to set
+	 */
+	public final void setCodeAppliParametre(String codeAppliParametre) {
+		this.codeAppliParametre = codeAppliParametre;
+	}
+
+
+
+
+	/**
+	 * @return the numeroSequenceParametre
+	 */
+	public final String getNumeroSequenceParametre() {
+		return numeroSequenceParametre;
+	}
+
+
+
+
+	/**
+	 * @param numeroSequenceParametre the numeroSequenceParametre to set
+	 */
+	public final void setNumeroSequenceParametre(String numeroSequenceParametre) {
+		this.numeroSequenceParametre = numeroSequenceParametre;
+	}
+
+
+
+
+	// Constructeur vide
+	public BaseParametreRequestBean() {
+	}
+
+
+
+
+	public String getInfo(){
+		return getCodeEFSParametre() + "/" +
+				getCodeAppliParametre() + "/" +
+				getNumeroSequenceParametre();
+	}
+
+}

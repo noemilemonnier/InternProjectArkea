@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/repos/home/!svn/ver/30344/d1889/BaseParametre/trunk/src/com/arkea/com/arkea/commons/archetypes/server/injection
+END
+ServletMapping.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/repos/home/!svn/ver/30344/d1889/BaseParametre/trunk/src/com/arkea/com/arkea/commons/archetypes/server/injection/ServletMapping.java
+END
+ServicesBinder.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/repos/home/!svn/ver/30344/d1889/BaseParametre/trunk/src/com/arkea/com/arkea/commons/archetypes/server/injection/ServicesBinder.java
+END
+DAOThriftBinder.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/repos/home/!svn/ver/30344/d1889/BaseParametre/trunk/src/com/arkea/com/arkea/commons/archetypes/server/injection/DAOThriftBinder.java
+END
+GuiceEntryPoint.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/repos/home/!svn/ver/30344/d1889/BaseParametre/trunk/src/com/arkea/com/arkea/commons/archetypes/server/injection/GuiceEntryPoint.java
+END
+MemCachedBinder.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/repos/home/!svn/ver/30344/d1889/BaseParametre/trunk/src/com/arkea/com/arkea/commons/archetypes/server/injection/MemCachedBinder.java
+END

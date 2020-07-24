@@ -1,0 +1,355 @@
+package com.arkea.com.arkea.commons.archetypes.client.widgets.commons.researchresult;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.TimeZone;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.inject.Inject;
+
+
+import com.arkea.com.arkea.commons.archetypes.client.model.ElementModel;
+import com.arkea.com.arkea.commons.archetypes.client.model.ElementModel.ElementModelProps;
+import com.arkea.com.arkea.commons.archetypes.client.widgets.commons.WidgetCommon;
+import com.arkea.com.arkea.commons.archetypes.client.widgets.commons.searchbar.SearchBarWidgetEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
+import com.sencha.gxt.core.client.IdentityValueProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.StringLabelProvider;
+import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.form.SimpleComboBox;
+import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.form.validator.EmptyValidator;
+import com.sencha.gxt.widget.core.client.form.validator.RegExValidator;
+import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
+import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
+import com.sencha.gxt.widget.core.client.grid.ColumnModel;
+import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.grid.RowExpander;
+import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
+import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
+
+
+
+/**
+ * PLEASE PUT SOME COMMENTS ON WIDGET BEHAVIOUR HERE
+ * 
+ * @EventsCaught : 
+ *  TODO : mentioned the events caught by the widget
+ * @EventsFired :
+ *  TODO : mentioned the events fired by the widget
+ * 
+ */
+public class ResearchResult extends WidgetCommon implements  SearchBarWidgetEvent.Handler {
+
+
+	/**
+	 * Declaration variables
+	 */
+	ElementModelProps props = GWT.create(ElementModelProps.class);	
+	ListStore<ElementModel> store = new ListStore<ElementModel>(props.key());
+
+	//window et bouton valider pr bouton ajouter
+	Window window = new Window();
+	Button valider = new Button();
+
+	//window et bouton valider pr bouton supprimer
+	Window window2 = new Window(); 
+	Button valider2 = new Button();
+
+	private int HEIGHT_GRID = 370;
+
+	// pr checkbox
+	IdentityValueProvider<ElementModel> identity = new IdentityValueProvider<ElementModel>();
+	final CheckBoxSelectionModel<ElementModel> selectionModel = new CheckBoxSelectionModel<ElementModel>(identity);
+
+	/**
+	 * Declare UIBinder for this widget
+	 */
+	@UiTemplate("ResearchResult.ui.xml")
+	interface ResearchResultUiBinder extends UiBinder<Widget, ResearchResult> {
+	}
+	/** UIBinder for building interface */
+	private ResearchResultUiBinder uiBinder ;
+
+	/** UIBinder bindings */
+	@UiField FlowPanel rootPanel;
+	@UiField ResearchResultMessages messages; 
+	@UiField Label message;
+	@UiField FlowPanel gridPanel;
+	@UiField VerticalPanel researchResultPanel;
+	@UiField Button BtnAjout;
+	@UiField Button BtnSupprimer;
+	@UiField Button BtnClear;
+
+	/**
+	 * Constructor for this widget
+	 * @param eventBus the event bus on which events are fired/caught
+	 */
+	@Inject
+	private ResearchResult(EventBus eventBus) {
+		super(eventBus);
+
+		// create UI
+		uiBinder = GWT.create(ResearchResultUiBinder.class);
+		Widget myWidget = uiBinder.createAndBindUi(this);
+
+
+		// connect handler
+		handlersRegistration.add(eventBus.addHandler(SearchBarWidgetEvent.TYPE, this));		
+
+		/**
+		 * window 2 
+		 */
+		window2.setShadow(true);
+		window2.setHeadingText("Supprimer un paramètre");
+		window2.setPosition(600,300);
+		window2.setResizable(false);
+		window2.setClosable(true);
+		window2.getDraggable();
+
+		/**
+		 * Row Expander
+		 */
+		RowExpander<ElementModel> rowExpander = new RowExpander<ElementModel>( new AbstractCell<ElementModel>(){
+			@Override
+			public void render(Context context, ElementModel value, SafeHtmlBuilder sb){
+				sb.appendHtmlConstant("<p style='margin: 5px 5px 10px'><b>Commentaire: </b>" + value.getCmt() + "</p>");
+				sb.appendHtmlConstant("<p style='margin: 5px 5px 10px'><b>Valeur parametre: </b> " + value.getVlrpar()+ "</p>");
+				sb.appendHtmlConstant("<p style='margin: 5px 5px 10px'><b>Time Stamp: </b> " + value.getTmStp());
+			}
+		});
+
+		/**
+		 * Creation de la barre de recherche avec 4 colonnes
+		 */ 
+		ColumnConfig<ElementModel, String> nameCol1 = new ColumnConfig<ElementModel, String>(props.apli(), 160, "Code application");
+		ColumnConfig<ElementModel, String> nameCol2 = new ColumnConfig<ElementModel, String>(props.efs(), 160, "Code EFS");
+		ColumnConfig<ElementModel, String> nameCol3 = new ColumnConfig<ElementModel, String>(props.seq(), 250, "Numéro de Séquence");
+		ColumnConfig<ElementModel, String> nameCol4 = new ColumnConfig<ElementModel, String>(props.cmt(), 350, "Commentaire");
+
+		/**
+		 * CheckBox 
+		 */
+		SimpleComboBox<String> typeCombo = new SimpleComboBox<String>(new StringLabelProvider<String>());
+		typeCombo.setTriggerAction(TriggerAction.ALL);
+		typeCombo.setEditable(false);
+		typeCombo.setWidth(100);
+		typeCombo.addSelectionHandler(new SelectionHandler<String>(){
+			public void onSelection(SelectionEvent<String> event){
+				selectionModel.deselectAll();
+			}
+		});
+
+		/**
+		 * Ajout des columns
+		 */
+		List<ColumnConfig<ElementModel, ?>> columns = new ArrayList<ColumnConfig<ElementModel, ?>>();
+		columns.add(selectionModel.getColumn());
+		columns.add(rowExpander);
+		columns.add(nameCol1);
+		columns.add(nameCol2);
+		columns.add(nameCol3);
+		columns.add(nameCol4);
+
+
+		ColumnModel<ElementModel> cm = new ColumnModel<ElementModel>(columns);
+
+		final Grid<ElementModel> grid = new Grid<ElementModel>(store, cm);
+
+		/**
+		 * Grid Editor
+		 */
+		GridEditing<ElementModel> editing = new GridInlineEditing<ElementModel>(grid);
+
+		// Add field validator to the text field
+		TextField textField = new TextField();
+		textField.addValidator(new EmptyValidator<String>()); // or textField.setAllowBlank(false);
+		textField.addValidator(new RegExValidator("^[^a-z]+$", "edited"));
+
+		// what can be edited
+		editing.addEditor(nameCol1, textField);
+		editing.addEditor(nameCol2, textField);
+		editing.addEditor(nameCol3, textField);
+		editing.addEditor(nameCol4, textField);
+
+		// wire it up to the grid
+		rowExpander.initPlugin(grid);
+
+		store.setAutoCommit(true);
+
+		/**
+		 * Grid characteristics
+		 */
+		grid.setSelectionModel(selectionModel); // add checkbox
+		grid.setAllowTextSelection(true);
+		grid.getView().setAutoExpandColumn(nameCol1);
+		grid.getView().setStripeRows(true);
+		grid.getView().setColumnLines(true);
+		grid.setBorders(false);
+		grid.setColumnReordering(true);
+		grid.setHeight(HEIGHT_GRID);
+		gridPanel.add(grid);
+
+		/**
+		 * When button "Ajouter" is clicked
+		 */
+		Date date = new Date();
+		DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy.MM.dd.HH.mm.ss");
+
+		VerticalPanel panel = new VerticalPanel();
+
+		Label cdApli = new Label("Code Application: ");
+		panel.add(cdApli);
+		final TextBox textboxApli = new TextBox();
+		panel.add(textboxApli);
+
+		Label cdEfs = new Label("Code EFS: ");
+		panel.add(cdEfs);
+		final TextBox textboxEfs = new TextBox();
+		panel.add(textboxEfs);
+
+		Label noSeq = new Label("Numéro Séquence: ");
+		panel.add(noSeq);
+		final TextBox textboxSeq = new TextBox();
+		panel.add(textboxSeq);
+
+		Label cmt = new Label("Commentaire: ");
+		panel.add(cmt);
+		final TextBox textboxCmt = new TextBox();
+		panel.add(textboxCmt);
+
+		Label vlrPrm = new Label("Valeur paramètre: ");
+		panel.add(vlrPrm);
+		final TextBox textboxVlr = new TextBox();
+		panel.add(textboxVlr);
+
+		Label tmstp = new Label("Time Stamp: ");
+		panel.add(tmstp);
+		final TextBox textboxTm = new TextBox();
+		// adjust time with minutesOffSet
+		textboxTm.setValue(dtf.format(date, TimeZone.createTimeZone(-60)));
+		textboxTm.setReadOnly(true);
+		panel.add(textboxTm);
+
+		valider.setPixelSize(60, 25);
+		valider.setText("Valider");
+		panel.add(valider);	
+		panel.setPixelSize(500, 300);
+
+		/** 
+		 * Window characteristics
+		 */
+		window.add(panel);
+		window.setShadow(true);
+		window.setHeadingText("Ajouter un paramètre");
+		window.setPosition(550,300);
+		window.setResizable(false);
+		window.setClosable(true);
+		window.getDraggable();
+
+		BtnAjout.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event){;
+			window.setVisible(true);
+
+			valider.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event){
+					ElementModel element = new ElementModel();
+					element.setId(1);
+					element.setApli(textboxApli.getText());
+					element.setEfs(textboxEfs.getText());
+					element.setSeq(textboxSeq.getText());
+					element.setCmt(textboxCmt.getText());
+					element.setVlrpar(textboxVlr.getText());
+					element.setTmStp(textboxTm.getValue());
+					store.add(element);
+					window.setVisible(false);
+				}
+			});
+			}
+		});
+
+		/**
+		 * Boutton Supprimer
+		 */
+		VerticalPanel panel2 = new VerticalPanel();
+		Label text = new Label("Confirmez-vous la suppression de l'élément sélectionné?");
+		panel2.add(text);
+
+		valider2.setPixelSize(60, 25);
+		valider2.setText("Valider");
+		panel2.add(valider2);	
+
+		panel2.setPixelSize(350, 150);
+		window2.add(panel2);
+
+		window2.setShadow(true);
+		window2.setHeadingText("Supprimer un paramètre");
+		window2.setPosition(600,300);
+		window2.setResizable(false);
+		window2.setClosable(true);
+		window2.getDraggable();
+
+		BtnSupprimer.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				window2.setVisible(true);
+			}
+
+		});
+
+		valider2.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event){
+				store.remove(selectionModel.getSelectedItem());
+				window2.setVisible(false);
+			}
+		});
+
+		/** 
+		 * Button réinitialiser le store pr de nouvelles recherches
+		 */
+		BtnClear.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				store.clear();
+			}
+		});
+		initWidget(myWidget);
+	}
+
+	/**
+	 * Results in the grid
+	 */
+	public void onRechercheBaseParametre(SearchBarWidgetEvent event) {
+		store.clear();
+		ElementModel elementModel = new ElementModel();
+		elementModel.setApli(event.getContext().getApli());
+		elementModel.setEfs(event.getContext().getEfs());
+		elementModel.setId(1);
+		elementModel.setSeq(event.getContext().getSeq());
+		elementModel.setTmStp(event.getContext().getTmstp());
+		elementModel.setVlrpar(event.getContext().getVlrpar());
+		elementModel.setCmt(event.getContext().getCommentaireBP()) ;
+		store.add(elementModel);
+
+	}
+}  
+
+
+

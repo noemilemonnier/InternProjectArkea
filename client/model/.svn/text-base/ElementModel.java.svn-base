@@ -1,0 +1,184 @@
+package com.arkea.com.arkea.commons.archetypes.client.model;
+
+import java.io.Serializable;
+
+import com.arkea.com.arkea.commons.archetypes.shared.service.bean.ElementBean;
+import com.google.gwt.editor.client.Editor.Path;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+
+/* ElementModel definit ce que chaque element doit avoir
+ * 
+ */
+@SuppressWarnings("serial")
+public class ElementModel implements Serializable {
+
+	public interface ElementModelProps extends PropertyAccess<ElementModel> {
+		@Path("id")
+		public ModelKeyProvider<ElementModel> key();
+		public ValueProvider<ElementModel, String> efs();
+		public ValueProvider<ElementModel, String> apli();
+		public ValueProvider<ElementModel, String> seq();
+		public ValueProvider<ElementModel, String> cmt();
+		public ValueProvider<ElementModel, String> tmStp();
+		public ValueProvider<ElementModel, String> vlrpar();
+	}
+
+	public static final String ID_COL_EFS = "efs";
+	public static final String ID_COL_APLI = "apli";
+	public static final String ID_COL_SEQ = "seq";
+	public static final String ID_COL_COMM = "cmt";
+	public static final String ID_COL_TMSTP = "tmStp";
+	public static final String ID_COL_PAR = "vlrpar";
+
+	private static int IDREF = 0;
+	private int id;
+
+	private String efs;
+	private String apli;
+	private String seq;
+	private String cmt;
+	private String tmStp;
+	private String vlrpar;
+
+	public ElementModel(){
+		setId(IDREF++);
+	}
+
+	public ElementModel(String eFS, String aPLI, String sEQ,
+			String cMT, String tmStp, String vlrPar) {
+		this();
+
+		this.efs = eFS;
+		this.apli = aPLI;
+		this.seq = sEQ;
+		this.cmt = cMT;
+		this.tmStp = tmStp;
+		this.vlrpar = vlrPar;
+	}
+
+
+	public ElementModel(ElementModel model){
+		this(model.getEfs(), model.getApli(),  model.getSeq(), model.getCmt(), model.getVlrpar(), model.getTmStp());
+	}
+
+	public ElementModel(ElementBean bean){
+		this(bean.getCD_EFS(), bean.getCD_APLI(), bean.getNO_SEQ(), bean.getCMT(), bean.getVlrPar(), bean.getTmStp());
+	}
+
+	/**
+	 * @return the iDREF
+	 */
+	public static final int getIDREF() {
+		return IDREF;
+	}
+
+	/**
+	 * @param iDREF the iDREF to set
+	 */
+	public static final void setIDREF(int iDREF) {
+		IDREF = iDREF;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public final int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public final void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the eFS
+	 */
+	public final String getEfs() {
+		return this.efs;
+	}
+
+	/**
+	 * @param eFS the eFS to set
+	 */
+	public final void setEfs(String eFS) {
+		this.efs = eFS;
+	}
+
+	/**
+	 * @return the aPLI
+	 */
+	public final String getApli() {
+		return apli;
+	}
+
+	/**
+	 * @param aPLI the aPLI to set
+	 */
+	public final void setApli(String aPLI) {
+		apli = aPLI;
+	}
+
+	/**
+	 * @return the sEQ
+	 */
+	public final String getSeq() {
+		return this.seq;
+	}
+
+	/**
+	 * @param sEQ the sEQ to set
+	 */
+	public final void setSeq(String sEQ) {
+		this.seq = sEQ;
+	}
+
+	/**
+	 * @return the cMT
+	 */
+	public final String getCmt() {
+		return this.cmt;
+	}
+
+	/**
+	 * @param cMT the cMT to set
+	 */
+	public final void setCmt(String cMT) {
+		this.cmt = cMT;
+	}
+
+	/**
+	 * @return the tmStp
+	 */
+	public final String getTmStp() {
+		return tmStp;
+	}
+
+	/**
+	 * @param tmStp the tmStp to set
+	 */
+	public final void setTmStp(String tmStp) {
+		this.tmStp = tmStp;
+	}
+
+	/**
+	 * @return the vlrPar
+	 */
+	public final String getVlrpar() {
+		return this.vlrpar;
+	}
+
+	/**
+	 * @param vlrPar the vlrPar to set
+	 */
+	public final void setVlrpar(String vlrPar) {
+		this.vlrpar = vlrPar;
+	}
+
+
+
+}

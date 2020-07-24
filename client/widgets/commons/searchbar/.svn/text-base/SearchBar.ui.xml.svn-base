@@ -1,0 +1,164 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<ui:with field='messages'
+		type='com.arkea.com.arkea.commons.archetypes.client.widgets.commons.searchbar.SearchBarMessages' />
+
+
+	<ui:style>
+		@def myblue rgb(82,168,236);
+
+		.SearchBar {
+		margin : auto;
+		}
+
+		.SearchBar-Titre {
+		color : myblue;
+		font-size: 18px;
+		margin : 5px 10px 5px
+		10px;
+		}
+
+
+		.SearchBar-Cadre {
+		border : medium solid myblue;
+		overflow : auto;
+		font-family : sans-serif;
+		margin : 10px 10px 10px 10px;
+		text-align :
+		center;
+		}
+
+		.SearchBar-Panel {
+		font-family : sans-serif;
+		margin-top : 5px;
+		margin-bot: 5px;
+		margin-left: auto;
+		margin-right : auto;
+		}
+
+		.SearchBar-PanelCadre {
+		border : 1px dashed myblue;
+		font-family :
+		sans-serif;
+		margin-top : 5px;
+		margin-bot : 5px;
+		margin-left: auto;
+		margin-right : auto;
+		}
+
+		.SearchBar-Message {
+		color : black;
+		font-size:
+		18px;
+		margin : 5px 10px 5px 10px;
+		}
+
+		.SearchBar-Label-APPLI {
+		font-weight:
+		bold;
+		float : left;
+		font-size: 12px;
+		margin : 10px 10px 10px 10px;
+		width:
+		75px;
+		}
+
+		.SearchBar-Appli {
+		float : left;
+		font-size: 12px;
+		width: 20em;
+		margin : 10px 10px 10px 10px;
+		}
+
+		.SearchBar-Label-EFS {
+		font-weight: bold;
+		float : left;
+		font-size: 12px;
+		margin : 10px 10px 10px 10px;
+		width: 73px;
+		}
+
+		.SearchBar-EFS {
+		float : left;
+		font-size: 12px;
+		width: 16em;
+		margin :
+		10px 10px 10px 10px;
+		}
+
+		.SearchBar-Label-SEQ {
+		font-weight: bold;
+		float :
+		left;
+		font-size: 12px;
+		margin : 10px 10px 10px 10px;
+		width: 75px;
+		}
+
+		.SearchBar-SEQ {
+		float: left;
+		font-size: 12px;
+		width: 20em;
+		margin : 10px
+		10px 10px 10px;
+		}
+
+		.SearchBar-BtnSearch {
+		color : white;
+		float : right;
+		margin : auto;
+		background: myblue;
+		border: solid 1px;
+		cursor: pointer;
+		cursor: hand;
+		clear: right;
+		margin : 5px 10px 5px 10px;
+		}
+
+
+
+	</ui:style>
+
+	<g:FlowPanel ui:field='rootPanel' stylePrimaryName='{style.SearchBar}'>
+		<g:VerticalPanel ui:field='searchBarPanel'
+			stylePrimaryName='{style.SearchBar-Cadre}'>
+			<!-- Titre -->
+			<g:VerticalPanel>
+				<g:Label ui:field='message' stylePrimaryName='{style.SearchBar-Titre}'
+					text='{messages.texteBienvenue}' />
+			</g:VerticalPanel>
+
+			<!-- RECHERCHE -->
+			<g:VerticalPanel stylePrimaryName='{style.SearchBar-PanelCadre}'>
+				<g:HorizontalPanel>
+					<g:Label ui:field='codeAppli' text='CD_APPLI:'
+						stylePrimaryName='{style.SearchBar-Label-APPLI}' />
+					<g:TextBox ui:field="textBoxAppli" stylePrimaryName='{style.SearchBar-EFS}'></g:TextBox>
+
+
+					<g:Label ui:field='codeEfs' text='CD_EFS:'
+						stylePrimaryName='{style.SearchBar-Label-EFS}' />
+					<g:ListBox ui:field='listBoxEfs' stylePrimaryName='{style.SearchBar-Appli}'>
+						<g:item ui:field='item' value='01'>
+						</g:item>
+					</g:ListBox>
+
+
+					<g:Label ui:field='numeroSeq' text='NO_SEQ:'
+						stylePrimaryName='{style.SearchBar-Label-SEQ}' />
+					<g:TextBox ui:field='textBoxSeq' stylePrimaryName='{style.SearchBar-EFS}'></g:TextBox>
+
+
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+
+			<!-- BOUTON CHERCHER -->
+			<g:HorizontalPanel stylePrimaryName='{style.SearchBar-Panel}'>
+				<g:Button ui:field="BtnSearch" stylePrimaryName='{style.SearchBar-BtnSearch}'>Chercher
+				</g:Button>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+	</g:FlowPanel>
+
+</ui:UiBinder>

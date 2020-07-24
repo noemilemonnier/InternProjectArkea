@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="Test">
+	<!-- Inherit the core Web Toolkit stuff.                        -->
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.i18n.I18N" />
+
+	<!-- Inherit the default GWT style sheet.  You can change       -->
+	<!-- the theme of your GWT application by uncommenting          -->
+	<!-- any one of the following lines.                            -->
+  	<inherits name='com.google.gwt.user.theme.standard.Standard' />
+	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+	<!--  <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->    
+
+	<!-- Other module inherits                                      -->
+	<inherits name='com.arkea.commons.gwt.GWT' />
+
+	<!-- Sencha 3 -->
+	<inherits name='com.sencha.gxt.ui.GXT' />
+	<inherits name='com.sencha.gxt.chart.Chart' />
+	
+	<!-- Theme ARKEA -->
+	<inherits name="com.arkea.methodes.gxt3.theme.arkea.Arkea" />
+	
+	<!-- Ginjection -->
+	<inherits name='com.google.gwt.inject.Inject' />
+
+	<!-- Skelette ARKEA (+ Theme ARKEA) -->
+	<inherits name='com.arkea.commons.Scaffolding' />
+
+	<!-- Specify the app entry point class.                         -->
+	<entry-point class='com.arkea.com.arkea.commons.archetypes.client.Test' />
+
+	<!-- Specify the paths for translatable code                    -->
+	<source path='client' />
+	<source path='shared' />
+	
+	<set-configuration-property name="CssResource.style" value="pretty"/>
+	<set-property name="locale" value="fr"/>
+  
+</module>
